@@ -1,0 +1,256 @@
+
+html {
+  font-size: 10px;
+  font-family: sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+@function theme-black($opacity) {
+  @return rgba(0, 0, 0, $opacity);
+}
+
+@function theme-border($opacity) {
+  @return rgba(	234, 215, 215, $opacity);
+}
+
+@function completed-task-color($opacity) {
+  @return rgb(93, 194, 175, $opacity);
+}
+
+@function theme-skin-color($opacity) {
+  @return rgb(175, 91, 94, $opacity);
+}
+
+$background-color: #F5F5F5;
+$heading-color:#EAD7D7;
+$create-input-background-color:#FEFEFE;
+$text-color-light:#E6E6E6;
+$text-color:#4D4D4D;
+$container-padding:1rem 2rem;
+$task-text-size:2.4rem;
+$active-task-color: theme-black(0.7);
+
+
+.todo{
+  min-height:100vh;
+  background-color: $background-color;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.heading-large{
+  margin:1rem;
+  font-size: 10rem;
+  color:$heading-color
+}
+
+.todo-container{
+    width: 55rem;
+    box-shadow: 1px 13px 47px -5px rgba(0,0,0,0.2);
+}
+@media only screen and (max-width: 1200px){
+  .todo-container{
+    width: 55rem;
+  }
+}
+
+@media only screen and (max-width: 700px){
+  html{
+    font-size: 9px;
+  }
+  .todo-container{
+    max-width: 45rem;
+  }
+}
+
+@media only screen and (max-width: 425px){
+  html{
+    font-size: 8px;
+  }
+  .todo-container{
+    max-width: 40rem;
+  }
+}
+
+.todo-container-create{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: $create-input-background-color;
+  box-shadow: 0 2px 2px 0 rgb(0 0 0 / 15%), inset 0 -2px 1px rgb(0 0 0 / 3%);
+  & form{
+    display: flex;
+    flex:1;
+  }
+  & input{
+    flex:1;
+    padding:0.3rem 0;
+    word-break:break-all;
+    outline:none;
+    border:none;
+    font-size: $task-text-size;
+    color: $active-task-color;
+    margin: 1.6rem;
+
+    &::placeholder {
+      font-style: italic;
+      color: $text-color-light;
+      opacity: 1;
+    }
+  }
+  & .icon{
+    font-size: 2rem;
+    padding:0 1.5rem;
+    color:$text-color-light;
+    &--active{
+      color: theme-black(0.5)
+    }
+    &--fade{
+      pointer-events: none;
+      color: transparent;
+    }
+  }
+}
+
+//---------control bar----------------
+
+.control-bar-container{
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+
+.control-bar{
+  flex:1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 3;
+  background-color: white;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 20%);
+  position: relative;
+  font-size: 1.4rem;
+  color: theme-black(0.6);
+  padding:1rem 1.5rem;
+  border-top: 1px solid $text-color-light;
+
+  & > * {
+    flex:1;
+  }
+
+  &-filters{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    & .filter{
+      border:1px solid transparent;
+      border-radius: .3rem;
+      padding:0.2rem 0.6rem;
+      margin:0 0.5rem;
+      cursor: pointer;
+      &:hover{
+        border:1px solid theme-border(0.7);
+      }
+      &__active{
+        border:1px solid theme-border(1);
+      }
+    }
+  }
+
+  &-footer{
+    position: absolute;
+    bottom: var(--bottom);
+    flex:1;
+    box-shadow: 0 1px 1px 0 rgb(0 0 0 / 20%);
+    height:0.45rem;
+    width: var(--width);
+    background-color: $create-input-background-color;
+    z-index: var(--zIndex);
+  }
+
+  .clear-completed{
+    display: flex;
+    justify-content:flex-end;
+    cursor: pointer;
+  }
+}
+
+.todo-list-item{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: white;
+  border-top: 1px solid $text-color-light;
+  position: relative;
+
+  &:hover &--close{
+    visibility: visible;
+  }
+
+  &--icon{
+    padding:0.5rem;
+    height:2rem;
+    width: 2rem;
+    border:1px solid theme-black(0.1);
+    border-radius: 50%;
+    font-size: 2rem;
+    color:transparent;
+    margin: 1rem;
+    cursor: pointer;
+
+    &__active{
+      border-color: completed-task-color(0.4);
+      color: completed-task-color(1)
+    }
+    &__fade{
+      border-color: transparent;
+      color: transparent;
+    }
+  }
+  &--task{
+      flex:1;
+      word-break:break-all;
+      font-size: $task-text-size;
+      color: $active-task-color;
+      padding:1.3rem 0;
+      margin:0 1rem;
+      transition: all 0.3s;
+
+    &__completed{
+      color: $text-color-light;
+      text-decoration: line-through;
+    }
+  }
+  & form{
+    display: flex;
+    flex:1;
+  }
+  &--input{
+      flex:1;
+      padding:1.3rem;
+      box-shadow: inset 0 -1px 5px 0 rgb(0 0 0 / 20%);
+      border:1px solid theme-black(0.4);
+      outline: none;
+      font-size: $task-text-size;
+      color: $active-task-color;
+  }
+  &--close{
+    visibility: hidden;
+    position: absolute;
+    color: theme-skin-color(0.6);
+    font-size: 1.8rem;
+    right:2rem;
+    padding:1rem;
+    &:hover{
+      color: theme-skin-color(1);
+    }
+  }
+}
